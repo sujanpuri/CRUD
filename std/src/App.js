@@ -11,6 +11,7 @@ const StdApp = () => {
   });
 
   const [StudentData, setStudentData] = useState([]); // State for fetching Student Details
+  const [editId, setEditId] = useState(null); // Track the ID of the student being edited
 
   useEffect(() => {
     // Fetch Student Data from Database
@@ -25,18 +26,38 @@ const StdApp = () => {
 
     fetchStd();
   }, []);
-
   const handleSubmit = async (e) => {
-    e.preventDefault(); //stops the form from automatically reloading the page when it is submitted.
-    try {
-      await axios.post("http://localhost:3300/add-student", Std); //axios post request (to add data)
-      setStd({ name: "", age: "", sex: "", marks: "" });
-      alert("Student Added Successfully");
-
-      const updatedList = await axios.get("http://localhost:3300/get-student");
-      setStudentData(updatedList.data);
-    } catch (err) {
-      console.error("Error adding student:", err.message);
+    e.preventDefault();
+  
+    if (editId) {
+      // Update existing student
+      try {
+        await axios.put(`http://localhost:3300/update-student/${editId}`, Std); // Send PUT request
+        alert("Student updated successfully!");
+  
+        // Fetch updated data
+        const updatedList = await axios.get("http://localhost:3300/get-student");
+        setStudentData(updatedList.data);
+  
+        setEditId(null); // Reset editId
+        setStd({ name: "", age: "", sex: "", marks: "" }); // Clear form
+      } catch (err) {
+        console.error("Error updating student:", err.message);
+      }
+    } else {
+      // Add new student
+      try {
+        await axios.post("http://localhost:3300/add-student", Std);
+        alert("Student added successfully!");
+  
+        // Fetch updated data
+        const updatedList = await axios.get("http://localhost:3300/get-student");
+        setStudentData(updatedList.data);
+  
+        setStd({ name: "", age: "", sex: "", marks: "" }); // Clear form
+      } catch (err) {
+        console.error("Error adding student:", err.message);
+      }
     }
   };
 
@@ -46,8 +67,16 @@ const StdApp = () => {
       [e.target.name]: e.target.value, //e.target.name specifies the field & e.target.value change the value to user input
     });
   };
-  console.log(StudentData);
 
+const handleEdit = (student) => {
+  setStd({
+    name: student.name,
+    age: student.age,
+    sex: student.sex,
+    marks: student.marks,
+  });
+  setEditId(student._id); // Save the ID of the student being edited
+};
 
   // Handle delete
   const handleDelete = async (id) => {
@@ -160,6 +189,14 @@ const StdApp = () => {
                   <td className="py-2 px-4">{std.age}</td>
                   <td className="py-2 px-4">{std.sex}</td>
                   <td className="py-2 px-4">{std.marks}</td>
+                  <td>
+                    <button
+                      onClick={() => handleEdit(std)} // Pass the student object to handleEdit
+                      className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+                    >
+                      Edit
+                    </button>
+                  </td>
                   <td><button onClick={()=>{
                     handleDelete(std._id)
                   }}>Delete</button></td>

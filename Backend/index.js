@@ -65,6 +65,27 @@ app.get("/get-student", async (req, res) => {
   }
 });
 
+app.put("/update-student/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, age, sex, marks } = req.body;
+
+  try {
+    const updatedStudent = await Student.findByIdAndUpdate(
+      id,
+      { name, age, sex, marks },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    res.status(200).json({ message: "Student updated successfully", updatedStudent });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error updating student", error: err.message });
+  }
+});
+
 
 // Delete a student by ID
 app.delete("/delete-student/:id", async (req, res) => {
