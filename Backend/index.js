@@ -29,22 +29,25 @@ app.get("/", (req, res) => {
 // Add Student  (CREATE operation)
 app.post("/add-student", async (req, res) => {
   try {
-    const { name, age, sex, marks } = req.body;     //get data from frontend (request)
+    const { name, age, sex, marks } = req.body; //get data from frontend (request)
 
     if (!name || !age || !marks) {
-      return res.status(400).json({ error: "Name, Age, and Marks are required." });
+      return res
+        .status(400)
+        .json({ error: "Name, Age, and Marks are required." });
     }
 
-    const std = new Student({           //create new student
+    const std = new Student({
+      //create new student
       name,
       age,
       sex: sex || "Male", // Default value for sex is Male
       marks,
     });
 
-    await std.save();       //save new student data to database
+    await std.save(); //save new student data to database
     console.log("Student Added Successfully");
-    res.status(201).json({ message: "Student Added Successfully." });       //alert message
+    res.status(201).json({ message: "Student Added Successfully." }); //alert message
   } catch (err) {
     console.error("Error adding student:", err.message);
     res.status(500).json({ error: "Failed to add student." });
@@ -54,8 +57,8 @@ app.post("/add-student", async (req, res) => {
 // Get Students     (READ operation)
 app.get("/get-student", async (req, res) => {
   try {
-    const studentData = await Student.find();       //fetch all student data from database
-    res.status(200).json(studentData);              //send data to frontend
+    const studentData = await Student.find(); //fetch all student data from database
+    res.status(200).json(studentData); //send data to frontend
   } catch (err) {
     console.error("Error fetching students:", err.message);
     res.status(500).json({ error: "Failed to fetch students." });
@@ -63,6 +66,6 @@ app.get("/get-student", async (req, res) => {
 });
 
 // Start Server
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000/");
+app.listen(3300, () => {
+  console.log("Server is running on http://localhost:3300/");
 });

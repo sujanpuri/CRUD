@@ -2,21 +2,22 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const StdApp = () => {
-
-  const [Std, setStd] = useState({      // State for adding Student Details
+  const [Std, setStd] = useState({
+    // State for adding Student Details
     name: "",
     age: "",
     sex: "",
     marks: "",
   });
 
-  const [StudentData, setStudentData] = useState([]);   // State for fetching Student Details
+  const [StudentData, setStudentData] = useState([]); // State for fetching Student Details
 
-  useEffect(() => {       // Fetch Student Data from Database
+  useEffect(() => {
+    // Fetch Student Data from Database
     const fetchStd = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/get-student");    //axios get request (to fetch data)
-        setStudentData(response.data);                                            //set data to SetStudentData state
+        const response = await axios.get("http://localhost:3300/get-student"); //axios get request (to fetch data)
+        setStudentData(response.data); //set data to SetStudentData state
       } catch (err) {
         console.error("Error fetching student data:", err.message);
       }
@@ -26,13 +27,13 @@ const StdApp = () => {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();       //stops the form from automatically reloading the page when it is submitted.
+    e.preventDefault(); //stops the form from automatically reloading the page when it is submitted.
     try {
-      await axios.post("http://localhost:3000/add-student", Std);       //axios post request (to add data)
+      await axios.post("http://localhost:3300/add-student", Std); //axios post request (to add data)
       setStd({ name: "", age: "", sex: "", marks: "" });
       alert("Student Added Successfully");
 
-      const updatedList = await axios.get("http://localhost:3000/get-student");
+      const updatedList = await axios.get("http://localhost:3300/get-student");
       setStudentData(updatedList.data);
     } catch (err) {
       console.error("Error adding student:", err.message);
@@ -41,10 +42,11 @@ const StdApp = () => {
 
   const handleChange = (e) => {
     setStd({
-      ...Std,                               //let new data to be added to the existing data
-      [e.target.name]: e.target.value,      //e.target.name specifies the field & e.target.value change the value to user input
+      ...Std, //let new data to be added to the existing data
+      [e.target.name]: e.target.value, //e.target.name specifies the field & e.target.value change the value to user input
     });
   };
+  console.log(StudentData);
 
   return (
     <div className="min-h-screen bg-green-100 p-8">
