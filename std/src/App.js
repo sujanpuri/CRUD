@@ -173,7 +173,8 @@ const handleEdit = (student) => {
               <th className="py-2 px-4 text-left">Age</th>
               <th className="py-2 px-4 text-left">Sex</th>
               <th className="py-2 px-4 text-left">Marks</th>
-              <th>Delete</th>
+              <th className="py-2 px-4 text-left">Edit</th>
+              <th className="py-2 px-4 text-left">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -197,7 +198,8 @@ const handleEdit = (student) => {
                       Edit
                     </button>
                   </td>
-                  <td><button onClick={()=>{
+                  <td><button
+                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition" onClick={()=>{
                     handleDelete(std._id)
                   }}>Delete</button></td>
                 </tr>
