@@ -52,7 +52,8 @@ const StdApp = () => {
   // Handle delete
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/delete-student/${id}`);
+      console.log(id);
+      await axios.delete(`http://localhost:3300/delete-student/${id}`);
       alert("Student deleted successfully!");
   
       // Update the UI after deletion
