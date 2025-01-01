@@ -65,6 +65,25 @@ app.get("/get-student", async (req, res) => {
   }
 });
 
+
+// Delete a student by ID
+app.delete("/delete-student/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedStudent = await Student.findByIdAndDelete(id);
+
+    if (!deletedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.status(200).json({ message: "Student deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting student:", err.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 // Start Server
 app.listen(3300, () => {
   console.log("Server is running on http://localhost:3300/");

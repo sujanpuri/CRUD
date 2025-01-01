@@ -48,6 +48,21 @@ const StdApp = () => {
   };
   console.log(StudentData);
 
+
+  // Handle delete
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/delete-student/${id}`);
+      alert("Student deleted successfully!");
+  
+      // Update the UI after deletion
+      setStudentData((prev) => prev.filter((studentData) => studentData._id !== id));
+    } catch (err) {
+      console.error("Error deleting student:", err.message);
+    }
+  };
+  
+
   return (
     <div className="min-h-screen bg-green-100 p-8">
       <h1 className="text-3xl font-bold text-center text-green-600 mb-8">
@@ -128,6 +143,7 @@ const StdApp = () => {
               <th className="py-2 px-4 text-left">Age</th>
               <th className="py-2 px-4 text-left">Sex</th>
               <th className="py-2 px-4 text-left">Marks</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -143,6 +159,9 @@ const StdApp = () => {
                   <td className="py-2 px-4">{std.age}</td>
                   <td className="py-2 px-4">{std.sex}</td>
                   <td className="py-2 px-4">{std.marks}</td>
+                  <td><button onClick={()=>{
+                    handleDelete(std._id)
+                  }}>Delete</button></td>
                 </tr>
               ))
             ) : (
