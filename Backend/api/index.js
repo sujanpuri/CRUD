@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import Student from "./schema.js";
+import Student from "../schema.js";
 
 const app = express();
 app.use(express.json());
