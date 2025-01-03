@@ -11,9 +11,8 @@ app.use(cors());
 const connect = async () => {
   try {
     console.log("Connecting to the DataBase...");
-    await mongoose.connect(
-      "mongodb+srv://mrpurisujan:Student123@studentcluster.gsgdn.mongodb.net/StudentData?retryWrites=true&w=majority&appName=StudentCluster"
-    );
+    await mongoose.connect(process.env.MONGODB_URI);
+
     console.log("Connected to the DataBase");
   } catch (err) {
     console.error("Database connection error:", err.message);
