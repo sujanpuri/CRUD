@@ -64,6 +64,7 @@ app.get("/get-student", async (req, res) => {
   }
 });
 
+// Update a student by ID (Update operation)
 app.put("/update-student/:id", async (req, res) => {
   const { id } = req.params;
   const { name, age, sex, marks } = req.body;
@@ -86,7 +87,7 @@ app.put("/update-student/:id", async (req, res) => {
 });
 
 
-// Delete a student by ID
+// Delete a student by ID (DELETE operation)
 app.delete("/delete-student/:id", async (req, res) => {
   const { id } = req.params;
 
