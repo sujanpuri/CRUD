@@ -17,7 +17,7 @@ const StdApp = () => {
     // Fetch Student Data from Database
     const fetchStd = async () => {
       try {
-        const response = await axios.get("http://localhost:3300/get-student"); //axios get request (to fetch data)
+        const response = await axios.get("https://sujanbackend-l14jhp63v-ankit-khanals-projects.vercel.app/get-student"); //axios get request (to fetch data)
         setStudentData(response.data); //set data to SetStudentData state
       } catch (err) {
         console.error("Error fetching student data:", err.message);
@@ -32,12 +32,12 @@ const StdApp = () => {
     if (editId) {
       // Update existing student
       try {
-        await axios.put(`http://localhost:3300/update-student/${editId}`, Std); // Send PUT request
+        await axios.put(`https://crud-std-backend.vercel.app/update-student/${editId}`, Std); // Send PUT request
         alert("Student updated successfully!");
 
         // Fetch updated data
         const updatedList = await axios.get(
-          "http://localhost:3300/get-student"
+          "https://crud-std-backend.vercel.app/get-student"
         );
         setStudentData(updatedList.data);
 
@@ -49,12 +49,12 @@ const StdApp = () => {
     } else {
       // Add new student
       try {
-        await axios.post("http://localhost:3300/add-student", Std);
+        await axios.post("https://crud-std-backend.vercel.app/add-student", Std);
         alert("Student added successfully!");
 
         // Fetch updated data
         const updatedList = await axios.get(
-          "http://localhost:3300/get-student"
+          "https://crud-std-backend.vercel.app/get-student"
         );
         setStudentData(updatedList.data);
 
@@ -86,7 +86,7 @@ const StdApp = () => {
   const handleDelete = async (id) => {
     try {
       console.log(id);
-      await axios.delete(`http://localhost:3300/delete-student/${id}`);
+      await axios.delete(`https://crud-std-backend.vercel.app/delete-student/${id}`);
       alert("Student deleted successfully!");
 
       // Update the UI after deletion
