@@ -28,17 +28,19 @@ const StdApp = () => {
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (editId) {
       // Update existing student
       try {
         await axios.put(`http://localhost:3300/update-student/${editId}`, Std); // Send PUT request
         alert("Student updated successfully!");
-  
+
         // Fetch updated data
-        const updatedList = await axios.get("http://localhost:3300/get-student");
+        const updatedList = await axios.get(
+          "http://localhost:3300/get-student"
+        );
         setStudentData(updatedList.data);
-  
+
         setEditId(null); // Reset editId
         setStd({ name: "", age: "", sex: "", marks: "" }); // Clear form
       } catch (err) {
@@ -49,11 +51,13 @@ const StdApp = () => {
       try {
         await axios.post("http://localhost:3300/add-student", Std);
         alert("Student added successfully!");
-  
+
         // Fetch updated data
-        const updatedList = await axios.get("http://localhost:3300/get-student");
+        const updatedList = await axios.get(
+          "http://localhost:3300/get-student"
+        );
         setStudentData(updatedList.data);
-  
+
         setStd({ name: "", age: "", sex: "", marks: "" }); // Clear form
       } catch (err) {
         console.error("Error adding student:", err.message);
@@ -68,15 +72,15 @@ const StdApp = () => {
     });
   };
 
-const handleEdit = (student) => {
-  setStd({
-    name: student.name,
-    age: student.age,
-    sex: student.sex,
-    marks: student.marks,
-  });
-  setEditId(student._id); // Save the ID of the student being edited
-};
+  const handleEdit = (student) => {
+    setStd({
+      name: student.name,
+      age: student.age,
+      sex: student.sex,
+      marks: student.marks,
+    });
+    setEditId(student._id); // Save the ID of the student being edited
+  };
 
   // Handle delete
   const handleDelete = async (id) => {
@@ -84,14 +88,15 @@ const handleEdit = (student) => {
       console.log(id);
       await axios.delete(`http://localhost:3300/delete-student/${id}`);
       alert("Student deleted successfully!");
-  
+
       // Update the UI after deletion
-      setStudentData((prev) => prev.filter((studentData) => studentData._id !== id));
+      setStudentData((prev) =>
+        prev.filter((studentData) => studentData._id !== id)
+      );
     } catch (err) {
       console.error("Error deleting student:", err.message);
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-green-100 p-8">
@@ -198,10 +203,16 @@ const handleEdit = (student) => {
                       Edit
                     </button>
                   </td>
-                  <td><button
-                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition" onClick={()=>{
-                    handleDelete(std._id)
-                  }}>Delete</button></td>
+                  <td>
+                    <button
+                      className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                      onClick={() => {
+                        handleDelete(std._id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (

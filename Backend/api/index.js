@@ -1,12 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import Student from "../schema.js";
+import dotenv from "dotenv";
+import Student from "../model/schema.js";
 
+dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors());
-
 // Database Connection
 const connect = async () => {
   try {
@@ -79,13 +80,16 @@ app.put("/update-student/:id", async (req, res) => {
     if (!updatedStudent) {
       return res.status(404).json({ message: "Student not found" });
     }
-    res.status(200).json({ message: "Student updated successfully", updatedStudent });
+    res
+      .status(200)
+      .json({ message: "Student updated successfully", updatedStudent });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error updating student", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error updating student", error: err.message });
   }
 });
-
 
 // Delete a student by ID (DELETE operation)
 app.delete("/delete-student/:id", async (req, res) => {
@@ -105,4 +109,5 @@ app.delete("/delete-student/:id", async (req, res) => {
   }
 });
 
+app.listen(3300);
 export default app;
